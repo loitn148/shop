@@ -73,8 +73,8 @@
                                 <div class="grid1_of_4 simpleCart_shelfItem">
                                     <div class="content_box">
                                         <a href="../product/index.jsp?slug=<%=prod.getProductSlug()%>">
-                                            <div class="view view-fifth">
-                                                <img src="<%=prod.getProductImage()%>" class="img-responsive" alt=""/>
+                                            <div class="view view-fifth flex-col">
+                                                <img src="<%=prod.getProductImage()%>" class="img-responsive" alt="<%=prod.getProductName()%>"/>
                                             </div>
                                         </a>
                                     </div>
@@ -91,8 +91,10 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="size_2">
-                                        <input type="number" class="item_quantity quantity_1" value="1" min="1"/>
-                                        <input type="button" class="item_add add3" value="" />
+                                        <a href="/shop/CartServlet?command=plus&productId=<%=prod.getProductId()%>" class="add-to-cart" value="">
+                                            <img src="/shop/images/cart.png"/>
+                                            Add to Cart
+                                        </a>
                                     </div>
                                 </div>
                                 

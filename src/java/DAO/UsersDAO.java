@@ -19,7 +19,7 @@ import model.Users;
  * @author loitn148
  */
 public class UsersDAO { 
-    public boolean checkEmail(String email){
+    public boolean checkExistEmail(String email){
         String sql = "SELECT * FROM users WHERE email = '" + email + "'";
         try {
             ResultSet rs = this.getResultSet(sql);
@@ -33,7 +33,7 @@ public class UsersDAO {
     }
     
     public boolean checkPassword(String password){
-        return password.length() > 6 && password.length() < 30;
+        return password.length() >= 6 && password.length() <= 30;
     }
     
     public boolean checkRePassword(String password, String re_password){
@@ -43,7 +43,7 @@ public class UsersDAO {
     public boolean insert(Users user){
         try {
             Connection connection = DBConnect.getConnection();
-            String sql = "INSERT INTO users(email, password, fullname) VALUE(?,?,?,?)";
+            String sql = "INSERT INTO users(email, password, fullname, token) VALUE(?,?,?,?)";
             PreparedStatement ps = connection.prepareCall(sql);
 
             ps.setString(1, user.getEmail());
@@ -56,6 +56,18 @@ public class UsersDAO {
         } catch (SQLException e) {
             return false;
         }
+    }
+    
+    public Users login(String email, String password) throws SQLException{
+        String sql = "SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "'";
+        ResultSet rs = this.getResultSet(sql);
+        Users user = new Users();
+        while(rs.next()){
+            user.setFullName(rs.getString("fullname"));
+            user.setEmail(rs.getString("email"));
+            user.setId(rs.getInt("id"));
+        }
+        return user;
     }
     
     public boolean update(long id, String password){

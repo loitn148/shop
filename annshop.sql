@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 /*
 MySQL Backup
 Database: annshop
 Backup Time: 2018-06-15 13:56:29
 */
 
+=======
+/*
+MySQL Backup
+Database: annshop
+Backup Time: 2018-06-15 13:56:29
+*/
+
+>>>>>>> b2797cac5293be8f2b40dac24ebf2531f682681d
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `annshop`.`bill`;
 DROP TABLE IF EXISTS `annshop`.`bill_details`;

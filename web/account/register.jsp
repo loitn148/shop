@@ -4,6 +4,7 @@
     Author     : loitn148
 --%>
 
+<%@page import="model.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,24 +29,56 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 var x_timer;
-                $("#email").keyup(function (e) {
-                    clearTimeout(x_timer);
-                    var email = $(this).val();
+                $("#fullname").keyup(function (e) {
+                    let name = $(this).val();
                     x_timer = setTimeout(function () {
-                        check_email_ajax(email);
-                    }, 1000);
+                        clearTimeout(x_timer);
+                        $.post('/shop/CheckEmailServlet?command=name', {'name': name}, function (data) {
+                            $("#name-result").html(data);
+                        });
+                    }, 2000);
                 });
-
-                function check_email_ajax(email) {
-                    $("#email-result").html('<img src="../images/ajax-loader.gif" />');
-                    $.post('/shop/CheckEmailServlet', {'email': email}, function (data) {
-                        $("#email-result").html(data);
-                    });
-                }
+                
+                $("#email").keyup(function (e) {
+                    let email = $(this).val();
+                    x_timer = setTimeout(function () {
+                        clearTimeout(x_timer);
+                        $.post('/shop/CheckEmailServlet?command=email', {'email': email}, function (data) {
+                            $("#email-result").html(data);
+                        });
+                    }, 2000);
+                });
+                
+                $("#password").keyup(function (e) {
+                    let password = $(this).val();
+                    x_timer = setTimeout(function () {
+                        clearTimeout(x_timer);
+                        $.post('/shop/CheckEmailServlet?command=password', {'password': password}, function (data) {
+                            $("#password-result").html(data);
+                        });
+                    }, 2000);
+                });
+                
+                $("#repassword").keyup(function (e) {
+                    let repassword = $(this).val();
+                    let password = $("#password").val();
+                    x_timer = setTimeout(function () {
+                        clearTimeout(x_timer);
+                        $.post('/shop/CheckEmailServlet?command=repassword', {'password': password,'repassword': repassword}, function (data) {
+                            $("#repassword-result").html(data);
+                        });
+                    }, 2000);
+                });
             });
         </script>
     </head>
     <body>
+        <%
+            Users user = (Users) session.getAttribute("user");
+            if(user != null) {
+                response.sendRedirect("/shop/index.jsp");
+            }
+        %>
         <jsp:include page="../webmaster/header.jsp"></jsp:include>
             <div class="single_top">
                 <div class="container"> 
@@ -53,33 +86,30 @@
                         <div class="register-content flex-col">
                             <h4>REGISTER ACCOUNT</h4>
                             <form action="/shop/UsersServlet" method="post" class="form-register flex-col">
-                                <div>
+                                <div style="position: relative;">
                                     <input type="text" name="fullname" id="fullname" class="form-input" placeholder="Full Name"> 
-                                    <span class="name-notify"></span>
+                                    <span id="name-result"></span>
                                 </div> 
 
                                 <div style="position: relative;">
                                     <input type="text" name="email" id="email" class="form-input" placeholder="Email Address"> 
-                                    <span id="email-result" class="validate"></span>
+                                    <span id="email-result"></span>
                                 </div>
 
-                                <div>
+                                <div style="position: relative;">
                                     <input type="password" name="password" id="password" class="form-input" placeholder="Password"> 
-                                    <span id="password-result" class="validate"></span>
+                                    <span id="password-result"></span>
                                 </div>
 
-                                <div>
-                                    <input type="password" name="confirm-password" id="confirm-password" class="form-input" placeholder="Confirm Password">
-                                    <span id="password-result" class="validate"></span>
+                                <div style="position: relative;">
+                                    <input type="password" name="confirm-password" id="repassword" class="form-input" placeholder="Confirm Password">
+                                    <span id="repassword-result"></span>
                                 </div>
-
-
                                 <span class="password-tip">Password should be more than 6 and less than 30 characters</span>    
                                 
                                 <input type="hidden" value="insert" name="command">
-                                <input type="submit" value="Register" name="submit-register" class="form-input btn-register">
+                                <input type="submit" value="Register" name="submit-register" class="form-input btn-register" id="submit">
                                 
-
                                 <span class="switch-to-login">Already have an account? <a href="login.jsp"> Login </a></span> 
                             </form>
                         </div>

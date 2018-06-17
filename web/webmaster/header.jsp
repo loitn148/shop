@@ -4,6 +4,7 @@
     Author     : loitn148
 --%>
 
+<%@page import="model.Users"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="model.Cart"%>
 <%@page import="java.util.ArrayList"%>
@@ -25,13 +26,29 @@
                 cart = new Cart();
                 session.setAttribute("cart", cart);
             }
+            
+            Users user = (Users) session.getAttribute("user");
         %>
         <div class="header_top">
             <div class="container">
                 <div class="cssmenu">
-                    <ul>
-                        <li class="active"><a href="login.html">My Account</a></li> 
-                    </ul>
+                    <% if(user == null) { %>
+                        <ul>
+                            <li class="active"><a href="/shop/account/register.jsp">Register</a></li> 
+                            <li class="active">|</li>
+                            <li class="active"><a href="/shop/account/login.jsp">Login</a></li> 
+                        </ul>
+                    <% } else { %>
+                        <ul>
+                            <li class="active"><a href="/shop/account/index.jsp"><%=user.getFullName()%></a></li> 
+                            <li class="active">|</li>
+                            <form action="/shop/UsersServlet" method="post" style="display: inline;">
+                                <input type="hidden" value="logout" name="command">
+                                <input type="submit" value="Logout" class="btn-logout">
+                            </form>
+                            
+                        </ul>
+                    <% } %>
                 </div>
             </div>
         </div>

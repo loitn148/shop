@@ -1,8 +1,9 @@
-package org.apache.jsp;
+package org.apache.jsp.account;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import model.Users;
 
 public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -44,41 +45,45 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
-      out.write("        <title> AnnCosmetics </title>\n");
+      out.write("        <title>My Account</title>\n");
       out.write("        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n");
       out.write("        <meta name=\"keywords\" content=\"Buy_shop Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, \n");
       out.write("        Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design\" />\n");
       out.write("        <script type=\"application/x-javascript\"> addEventListener(\"load\", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>\n");
-      out.write("        <link href=\"css/bootstrap.css\" rel='stylesheet' type='text/css' />\n");
+      out.write("        <link href=\"../css/bootstrap.css\" rel='stylesheet' type='text/css' />\n");
       out.write("        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->\n");
       out.write("        <!-- Custom Theme files -->\n");
-      out.write("        <link href=\"css/style.css\" rel='stylesheet' type='text/css' />\n");
-      out.write("        <!--<script src=\"js/simpleCart.min.js\"> </script>-->\n");
+      out.write("        <link href=\"../css/style.css\" rel='stylesheet' type='text/css' />\n");
+      out.write("        <!--<script src=\"../js/simpleCart.min.js\"> </script>-->\n");
       out.write("        <!-- Custom Theme files -->\n");
       out.write("        <!--webfont-->\n");
       out.write("        <link href='http://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>\n");
-      out.write("        <script type=\"text/javascript\" src=\"js/jquery-1.11.1.min.js\"></script>\n");
+      out.write("        <script type=\"text/javascript\" src=\"../js/jquery-1.11.1.min.js\"></script>\n");
       out.write("        <!-- start menu -->\n");
-      out.write("        <link href=\"css/megamenu.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n");
-      out.write("        <script type=\"text/javascript\" src=\"js/megamenu.js\"></script>\n");
+      out.write("        <link href=\"../css/megamenu.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />\n");
+      out.write("        <script type=\"text/javascript\" src=\"../js/megamenu.js\"></script>\n");
       out.write("        <script>$(document).ready(function(){$(\".megamenu\").megamenu();});</script>\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        ");
-      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "webmaster/header.jsp", out, false);
+
+            Users user = (Users) session.getAttribute("user");
+            if(user != null) {
+                response.sendRedirect("../index.jsp");
+            }
+        
       out.write("\n");
       out.write("        ");
-      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "homepage/banner.jsp", out, false);
+      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "../webmaster/header.jsp", out, false);
       out.write("\n");
+      out.write("        \n");
       out.write("        ");
-      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "homepage/content.jsp", out, false);
-      out.write("\n");
-      out.write("        ");
-      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "webmaster/footer.jsp", out, false);
+      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "../webmaster/footer.jsp", out, false);
       out.write("\n");
       out.write("    </body>\n");
       out.write("</html>\n");

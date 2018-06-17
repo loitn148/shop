@@ -73,7 +73,7 @@
                             <% Product product = list.getValue().getProduct();%>
                             <tr>
                                 <td>
-                                    <a href="/shop/CartServlet?command=delete?productId=<%=product.getProductId()%>">
+                                    <a href="/shop/CartServlet?command=delete&productId=<%=product.getProductId()%>">
                                         <div class="close"> </div>
                                     </a>
                                 </td>

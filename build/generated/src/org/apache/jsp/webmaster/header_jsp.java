@@ -3,6 +3,9 @@ package org.apache.jsp.webmaster;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import model.Users;
+import java.text.NumberFormat;
+import model.Cart;
 import java.util.ArrayList;
 import model.Category;
 import DAO.CategoryDAO;
@@ -50,6 +53,9 @@ public final class header_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
+      out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -60,21 +66,40 @@ public final class header_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        ");
  
             CategoryDAO catDAO = new CategoryDAO();
+            
+            Cart cart = (Cart) session.getAttribute("cart");
+            if(cart == null) {
+                cart = new Cart();
+                session.setAttribute("cart", cart);
+            }
+            
+            Users user = (Users) session.getAttribute("user");
         
       out.write("\n");
       out.write("        <div class=\"header_top\">\n");
       out.write("            <div class=\"container\">\n");
-      out.write("<!--                <div class=\"one-fifth column row_1\">\n");
-      out.write("                    <span class=\"selection-box\"><select class=\"domains valid\" name=\"domains\">\n");
-      out.write("                    <option>English</option>\n");
-      out.write("                    <option>French</option>\n");
-      out.write("                    <option>German</option>\n");
-      out.write("                    </select></span>\n");
-      out.write("                </div>-->\n");
       out.write("                <div class=\"cssmenu\">\n");
-      out.write("                    <ul>\n");
-      out.write("                        <li class=\"active\"><a href=\"login.html\">My Account</a></li> \n");
-      out.write("                    </ul>\n");
+      out.write("                    ");
+ if(user == null) { 
+      out.write("\n");
+      out.write("                        <ul>\n");
+      out.write("                            <li class=\"active\"><a href=\"/shop/account/register.jsp\">Register</a></li> \n");
+      out.write("                            <li class=\"active\">|</li>\n");
+      out.write("                            <li class=\"active\"><a href=\"/shop/account/login.jsp\">Login</a></li> \n");
+      out.write("                        </ul>\n");
+      out.write("                    ");
+ } else { 
+      out.write("\n");
+      out.write("                        <ul>\n");
+      out.write("                            <li class=\"active\"><a href=\"/shop/account/index.jsp\">");
+      out.print(user.getFullName());
+      out.write("</a></li> \n");
+      out.write("                            <li class=\"active\">|</li>\n");
+      out.write("                            <li class=\"active\"><a href=\"/shop/UsersServlet?command=logout\" id=\"logout\">Logout</a></li>\n");
+      out.write("                        </ul>\n");
+      out.write("                    ");
+ } 
+      out.write("\n");
       out.write("                </div>\n");
       out.write("            </div>\n");
       out.write("        </div>\n");
@@ -98,7 +123,7 @@ public final class header_jsp extends org.apache.jasper.runtime.HttpJspBase
  for(Category list : catDAO.getListCategory()) { 
       out.write("\n");
       out.write("                                <li class=\"active grid\" style=\"display: inline;\">\n");
-      out.write("                                    <a class=\"color-main-hover item-megamenu\" href=\"../category/index.jsp?slug=");
+      out.write("                                    <a class=\"color-main-hover item-megamenu\" href=\"/shop/category/index.jsp?slug=");
       out.print(list.getSlug());
       out.write('"');
       out.write('>');
@@ -117,7 +142,7 @@ public final class header_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                                    ");
  for(Category list_child : listChild) { 
       out.write("\n");
-      out.write("                                                        <li><a href=\"../category/index.jsp?slug=");
+      out.write("                                                        <li><a href=\"/shop/category/index.jsp?slug=");
       out.print(list_child.getSlug());
       out.write('"');
       out.write('>');
@@ -137,6 +162,9 @@ public final class header_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            ");
  } 
       out.write("\n");
+      out.write("                            <li class=\"active grid\" style=\"display: inline;\">\n");
+      out.write("                                <a class=\"color-main-hover item-megamenu\" href=\"/shop/shop/index.jsp\">SHOP</a>\n");
+      out.write("                            </li>\n");
       out.write("                        </ul> \n");
       out.write("                    </div>\n");
       out.write("\t\t</div>\n");
@@ -148,10 +176,14 @@ public final class header_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </div>\n");
       out.write("                    <div class=\"box_1-cart flex-row\">\n");
       out.write("                        <div class=\"box_11\">\n");
-      out.write("                            <a href=\"checkout.html\">\n");
+      out.write("                            <a href=\"/shop/cart/index.jsp\">\n");
       out.write("                                <h4>\n");
-      out.write("                                    <p>Cart: <span class=\"simpleCart_total\">$0.00</span> (<span id=\"simpleCart_quantity\" class=\"simpleCart_quantity\">0</span> items)</p>\n");
-      out.write("                                    <img src=\"../images/bag.png\" alt=\"\">\n");
+      out.write("                                    <p>Cart: <span class=\"simpleCart_total\">");
+      out.print( "$"+cart.totalCart());
+      out.write("</span> (<span id=\"simpleCart_quantity\" class=\"simpleCart_quantity\">");
+      out.print(cart.countItem());
+      out.write("</span> items)</p>\n");
+      out.write("                                    <img src=\"/shop/images/bag.png\" alt=\"\">\n");
       out.write("                                    <div class=\"clearfix\"> </div>\n");
       out.write("                                </h4>\n");
       out.write("                            </a>\n");

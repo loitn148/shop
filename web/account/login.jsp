@@ -4,6 +4,7 @@
     Author     : loitn148
 --%>
 
+<%@page import="model.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,20 +30,36 @@
         <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
     </head>
     <body>
+        <%
+            Users user = (Users) session.getAttribute("user");
+            if(user != null) {
+                response.sendRedirect("../index.jsp");
+            }
+            
+            String error = "";
+            if(request.getParameter("error") != null) {
+                error = request.getParameter("error");
+            }
+        %>
         <jsp:include page="../webmaster/header.jsp"></jsp:include>
         <div class="single_top">
             <div class="container"> 
                 <div class="register flex-col">
                         <div class="register-content flex-col">
                             <h4>LOGIN <span style="font-size: 16px;">&</span> START SHOPPING</h4>
-                            <form class="form-register flex-col">
-                                <input type="text" name="email" class="form-input" placeholder="Email Address *"> 
+                            
+                            <% if(error.equals("invalid")) { %>
+                                <span class="error-notify">Invalid email or password.</span>
+                            <% } %>
+                            <form action="/shop/UsersServlet" method="post" class="form-register flex-col">
+                                <input type="text" name="email" class="form-input" placeholder="Email Address"> 
 
-                                <input type="password" name="password" class="form-input" placeholder="Password *"> 
+                                <input type="password" name="password" class="form-input" placeholder="Password"> 
                                 
-                                <span class="password-tip"> <a>Forgot your password?</a></span>    
-
-                                <input type="submit" value="Register" name="submit-register" class="form-input btn-register">
+                                <!--<span class="password-tip"> <a>Forgot your password?</a></span>-->    
+                                
+                                <input type="hidden" value="login" name="command">
+                                <input type="submit" value="Login Now" name="submit-register" class="form-input btn-register">
                                 
                                 <span class="switch-to-login">Don't have an account? <a href="register.jsp"> Register Now </a></span> 
                             </form>

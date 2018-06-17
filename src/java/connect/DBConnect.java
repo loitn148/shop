@@ -20,9 +20,8 @@ public class DBConnect {
 //            cons = DriverManager.getConnection(
 //                    "jdbc:mysql://fdb1.awardspace.net:3306/2753157_annshop?useUnicode=true&characterEncoding=utf8", "2753157_annshop", "Ngocloi148@123456789");
             cons = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/annshop?useUnicode=true&characterEncoding=utf8", "root", "root");
-        } catch (Exception e) {
-            e.printStackTrace();
+                    "jdbc:mysql://localhost:3306/annshop?useUnicode=true&characterEncoding=utf-8", "root", "root");
+        } catch (ClassNotFoundException | SQLException e) {
         }
         return cons;
     }

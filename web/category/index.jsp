@@ -76,13 +76,13 @@
                                 
                                 <div class="grid1_of_4 simpleCart_shelfItem">
                                     <div class="content_box">
-                                        <a href="../product/index.jsp?slug=<%=prod.getProductSlug()%>">
-                                            <div class="view view-fifth">
-                                                <img src="<%=prod.getProductImage()%>" class="img-responsive" alt=""/>
+                                        <a href="/shop/product/index.jsp?slug=<%=prod.getProductSlug()%>">
+                                            <div class="view view-fifth flex-col">
+                                                <img src="<%=prod.getProductImage()%>" class="img-responsive" alt="<%=prod.getProductName()%>"/>
                                             </div>
                                         </a>
                                     </div>
-                                    <h5><a class="product-name" href="../product/index.jsp?slug=<%=prod.getProductSlug()%>"><%=prod.getProductName()%></a></h5>
+                                    <h5><a class="product-name" href="/shop/product/index.jsp?slug=<%=prod.getProductSlug()%>"><%=prod.getProductName()%></a></h5>
                                     <div class="size_1">
                                         <%
                                             if(prod.getProductDiscount() != 0) {
@@ -95,8 +95,8 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="size_2">
-                                        <a href="#" class="add-to-cart" value="">
-                                            <img src="../images/cart.png"/>
+                                        <a href="/shop/CartServlet?command=plus&productId=<%=prod.getProductId()%>" class="add-to-cart" value="">
+                                            <img src="/shop/images/cart.png"/>
                                             Add to Cart
                                         </a>
                                     </div>

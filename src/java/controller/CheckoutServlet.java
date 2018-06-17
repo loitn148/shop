@@ -7,6 +7,7 @@ package controller;
 
 import DAO.BillDAO;
 import DAO.BillDetailsDAO;
+import DAO.ProductDAO;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class CheckoutServlet extends HttpServlet {
     
     private final BillDAO billDAO = new BillDAO();
     private final BillDetailsDAO billDetailsDAO = new BillDetailsDAO();
+    private final ProductDAO productDAO = new ProductDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,6 +65,7 @@ public class CheckoutServlet extends HttpServlet {
                                                             list.getValue().getQuantity());
                 
                 billDetailsDAO.insert(billDetails);
+                productDAO.countSale(list.getValue().getProduct(), list.getValue().getQuantity());
             }
             
             billDAO.insert(bill);

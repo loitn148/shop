@@ -3,6 +3,7 @@ package org.apache.jsp.account;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import model.Users;
 
 public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -44,6 +45,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -57,7 +59,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->\n");
       out.write("        <!-- Custom Theme files -->\n");
       out.write("        <link href=\"../css/style.css\" rel='stylesheet' type='text/css' />\n");
-      out.write("        <script src=\"../js/simpleCart.min.js\"> </script>\n");
+      out.write("        <!--<script src=\"../js/simpleCart.min.js\"> </script>-->\n");
       out.write("        <!-- Custom Theme files -->\n");
       out.write("        <!--webfont-->\n");
       out.write("        <link href='http://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>\n");
@@ -69,36 +71,48 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        ");
+
+            Users user = (Users) session.getAttribute("user");
+            if(user != null) {
+                response.sendRedirect("../index.jsp");
+            }
+            
+            String error = "";
+            if(request.getParameter("error") != null) {
+                error = request.getParameter("error");
+            }
+        
+      out.write("\n");
+      out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "../webmaster/header.jsp", out, false);
       out.write("\n");
       out.write("        <div class=\"single_top\">\n");
       out.write("            <div class=\"container\"> \n");
-      out.write("                <div class=\"register\">\n");
-      out.write("                    <div class=\"col-md-6 login-right\">\n");
-      out.write("                        <h3>REGISTERED CUSTOMERS</h3>\n");
-      out.write("                        <p>If you have an account with us, please log in.</p>\n");
-      out.write("                        <form>\n");
-      out.write("                            <div>\n");
-      out.write("                                <span>Email Address<label>*</label></span>\n");
-      out.write("                                <input type=\"text\"> \n");
-      out.write("                            </div>\n");
-      out.write("                            <div>\n");
-      out.write("                                <span>Password<label>*</label></span>\n");
-      out.write("                                <input type=\"text\"> \n");
-      out.write("                            </div>\n");
-      out.write("                            <input type=\"submit\" value=\"Login\">\n");
-      out.write("                            <br>\n");
-      out.write("                            <a class=\"forgot\" href=\"#\">Forgot Your Password?</a>\n");
-      out.write("                            \n");
-      out.write("                        </form>\n");
+      out.write("                <div class=\"register flex-col\">\n");
+      out.write("                        <div class=\"register-content flex-col\">\n");
+      out.write("                            <h4>LOGIN <span style=\"font-size: 16px;\">&</span> START SHOPPING</h4>\n");
+      out.write("                            <form action=\"/shop/UsersServlet\" method=\"post\" class=\"form-register flex-col\">\n");
+      out.write("                                <input type=\"text\" name=\"email\" class=\"form-input\" placeholder=\"Email Address\"> \n");
+      out.write("\n");
+      out.write("                                <input type=\"password\" name=\"password\" class=\"form-input\" placeholder=\"Password\"> \n");
+      out.write("                                \n");
+      out.write("                                ");
+ if(error.equals("invalid")) { 
+      out.write("\n");
+      out.write("                                    <span class=\"error-notify\">Invalid email or password.</span>\n");
+      out.write("                                ");
+ } 
+      out.write("\n");
+      out.write("                                \n");
+      out.write("                                <!--<span class=\"password-tip\"> <a>Forgot your password?</a></span>-->    \n");
+      out.write("                                \n");
+      out.write("                                <input type=\"hidden\" value=\"login\" name=\"command\">\n");
+      out.write("                                <input type=\"submit\" value=\"Login Now\" name=\"submit-register\" class=\"form-input btn-register\">\n");
+      out.write("                                \n");
+      out.write("                                <span class=\"switch-to-login\">Don't have an account? <a href=\"register.jsp\"> Register Now </a></span> \n");
+      out.write("                            </form>\n");
+      out.write("                        </div>\n");
       out.write("                    </div>\n");
-      out.write("                    <div class=\"col-md-6 login-left\">\n");
-      out.write("                        <h3>NEW CUSTOMERS</h3>\n");
-      out.write("                        <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>\n");
-      out.write("                        <a class=\"acount-btn\" href=\"register.html\">Create an Account</a>\n");
-      out.write("                    </div>\t\n");
-      out.write("                    <div class=\"clearfix\"> </div>\n");
-      out.write("                </div>\n");
       out.write("            </div>\n");
       out.write("        </div>      \n");
       out.write("        ");

@@ -78,6 +78,38 @@ public class ProductDAO {
         return list;
     }
     
+    public ArrayList<Product> getListProductOrderBy(String type) throws SQLException {
+        String sql;
+        switch(type) {
+            case "bestsale":
+                sql = "SELECT * FROM product ORDER BY count_sale DESC LIMIT 4" ;
+                break;
+            case "new":
+                sql = "SELECT * FROM product ORDER BY product_id DESC LIMIT 3";
+                break;
+            default:
+                sql = "SELECT * FROM product LIMIT 8";
+                break;
+        }
+        
+        ResultSet rs = this.getResultSet(sql);
+        ArrayList<Product> list = new ArrayList<>();
+        while (rs.next()){
+            Product product = new Product();
+            product.setProductId(rs.getInt("product_id"));
+            product.setProductName(rs.getString("product_name"));
+            product.setCategoryId(rs.getInt("cat_id"));
+            product.setProductImage(rs.getString("product_image"));
+            product.setProductSlug(rs.getString("product_slug"));
+            product.setProductPrice(rs.getDouble("product_price"));
+            product.setProductDiscount(rs.getInt("product_discount"));
+            product.setProductDescription(rs.getString("product_description"));
+            product.setProductPriceSale(rs.getDouble("product_price_sale"));
+            list.add(product);
+        }
+        return list;
+    }
+    
     public Product getProduct(String prod_slug) throws SQLException{
         String sql = "SELECT * FROM product WHERE product_slug = '" + prod_slug + "'";
         ResultSet rs = this.getResultSet(sql);
@@ -157,6 +189,26 @@ public class ProductDAO {
             ps.setDouble(8, p.getProductPriceSale());
             ps.setLong(9, prod_id);
             
+            
+            int temp = ps.executeUpdate();
+            return temp == 1;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+    
+    public boolean countSale(Product prod, long qty) {
+        long cur_countSale = prod.getCountSale();
+        long new_countSale = cur_countSale + qty;
+        
+        try {
+            Connection connection = DBConnect.getConnection();
+            String sql = "UPDATE product SET count_sale = ? WHERE product_id = ?";    
+            
+            PreparedStatement ps = connection.prepareCall(sql);
+
+            ps.setLong(1, new_countSale);
+            ps.setLong(2, prod.getProductId());
             
             int temp = ps.executeUpdate();
             return temp == 1;

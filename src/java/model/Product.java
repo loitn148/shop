@@ -20,6 +20,7 @@ public class Product {
     private double productDiscount;
     private String productSlug;
     private Double productPriceSale;
+    private long countSale;
 
     public Product() {
     }
@@ -105,6 +106,14 @@ public class Product {
 
     public void setProductPriceSale(Double productPriceSale) {
         this.productPriceSale = productPriceSale;
+    }
+
+    public long getCountSale() {
+        return countSale;
+    }
+
+    public void setCountSale(long countSale) {
+        this.countSale = countSale;
     }
     
 }
